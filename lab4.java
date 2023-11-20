@@ -53,34 +53,49 @@ class Polibiusz implements Algorithm {
 
 class Cryptographer {
     public void cryptfile(String pathToFileIn, String pathToFileOut, Algorithm algorithm){
-        try (BufferedReader br = new BufferedReader(new FileReader(pathToFileIn));
+      try (BufferedReader br = new BufferedReader(new FileReader(pathToFileIn));
             BufferedWriter bw = new BufferedWriter(new FileWriter(pathToFileOut))) {
 
-            String line;
-            while ((line = br.readLine())) {
-                bw.newLine();
-                bw.write(algorithm.crypt(line));
-                bw.write(" ");
-            }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
+           String line;
+           int count = 0;
+           while ((line = br.readLine()) != null) {
+               if (count != 0)
+                   bw.newLine();
+               String[] words = line.split("\\s");
+               for (int i=0; i<words.length; i++) {
+                   bw.write(algorithm.crypt(words[i]));
+                   if (i != words.length-1)
+                      bw.write(" ");
+               }
+               count += 1;
+           }
+      } catch (FileNotFoundException e) {
+      } catch (IOException e) {
+      }
     }
 
     public void decryptfile(String pathToFileIn, String pathToFileOut, Algorithm algorithm){
-        try (BufferedReader br = new BufferedReader(new FileReader(pathToFileIn));
+       try (BufferedReader br = new BufferedReader(new FileReader(pathToFileIn));
             BufferedWriter bw = new BufferedWriter(new FileWriter(pathToFileOut))) {
 
-            String line;
-            while ((line = br.readLine())) {
-                bw.newLine();
-                bw.write(algorithm.crypt(line));
-                bw.write(" ");
-            }
-        } catch (FileNotFoundException e) {
-        } catch (IOException e) {
-        }
-    }
+           String line;
+           int count = 0;
+           while ((line = br.readLine()) != null) {
+               if (count != 0)
+                   bw.newLine();
+               String[] words = line.split("\\s");
+               for (int i=0; i<words.length; i++) {
+                   bw.write(algorithm.decrypt(words[i]));
+                   if (i != words.length-1)
+                      bw.write(" ");
+               }
+               count += 1;
+           }
+       } catch (FileNotFoundException e) {
+       } catch (IOException e) {
+       }
+        
+    }  
 }
 
 public class Main {
